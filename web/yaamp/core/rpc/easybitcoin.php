@@ -140,8 +140,13 @@ class Bitcoin {
 			return FALSE;
 		}
 
+		// Fix listtransactions after deprecated rpc methods related to the old account system
+		if($method == 'listtransactions')
+		{
+			$request = "{\"method\":\"$method\",\"params\":[],\"id\":$this->id}";
+		}
 		// If no parameters are passed, this will be an empty array
-		if($method == 'getblocktemplate')
+		else if($method == 'getblocktemplate')
 		{
 			$param = isset($params[0]) ? $params[0] : '';
 			$request = "{\"method\":\"$method\",\"params\":[$param],\"id\":$this->id}";
